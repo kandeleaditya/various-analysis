@@ -1,0 +1,1987 @@
+<?xml version="1.0" encoding="utf-8"?>
+<modification>
+    <id>Kreatiwe Simba Ticket Custimization</id>
+    <version>1.0</version>
+	<vqmver>2.x</vqmver>
+    <author>Team Kreatiwe</author>
+	<website>https://www.opencart.com/index.php?route=marketplace/extension&amp;filter_member=kreatiwe</website>
+	
+	<file name="catalog/controller/support/request_form.php">
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['ticketdepartments'] = $this->model_module_ticket_support->getTicketdepartments();
+			]]></search>
+            <add><![CDATA[
+				$this->load->model('localisation/country');
+				$data['countries'] = $this->model_localisation_country->getCountries();
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['ticketdepartments'] = $this->model_module_ticket_support->getTicketdepartments();
+			]]></search>
+            <add><![CDATA[
+				//$data['shopCityList'] = $this->model_module_ticket_support->getShopCityList();
+				$data['seasonList'] = $this->model_module_ticket_support->getSeasonList();
+				//$data['errorList'] = $this->model_module_ticket_support->getErrorList();
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['action'] = $this->url->link('support/request_form', ''. $url, true);
+			]]></search>
+            <add><![CDATA[
+				$data['entry_purchase_online'] = $this->language->get('entry_purchase_online');
+				$data['entry_purchased_in'] = $this->language->get('entry_purchased_in');
+				$data['entry_shop'] = $this->language->get('entry_shop');
+				$data['entry_shop_city'] = $this->language->get('entry_shop');
+				$data['entry_season'] = $this->language->get('entry_season');
+				$data['entry_model'] = $this->language->get('entry_model');
+				$data['entry_color'] = $this->language->get('entry_color');
+				$data['entry_seats'] = $this->language->get('entry_seats');
+				$data['entry_shape'] = $this->language->get('entry_shape');
+				$data['entry_errors'] = $this->language->get('entry_errors');
+				$data['entry_date_purchased'] = $this->language->get('entry_date_purchased');
+				$data['entry_no_valid_warranty'] = $this->language->get('entry_no_valid_warranty');
+				
+				$data['text_purchased_in_select'] = $this->language->get('text_purchased_in_select');
+				$data['text_shop_select'] = $this->language->get('text_shop_select');
+				$data['text_shop_city_select'] = $this->language->get('text_shop_city_select');
+				$data['text_department_select'] = $this->language->get('text_department_select');
+				$data['text_season_select'] = $this->language->get('text_season_select');
+				$data['text_model_select'] = $this->language->get('text_model_select');
+				$data['text_color_select'] = $this->language->get('text_color_select');
+				$data['text_seat_select'] = $this->language->get('text_seat_select');
+				$data['text_shape_select'] = $this->language->get('text_shape_select');
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				public function fileupload() {
+			]]></search>
+            <add><![CDATA[
+				public function getModel() {
+					$json = array();
+
+					$this->load->model('module_ticket/support');
+
+					$model_info = $this->model_module_ticket_support->getModelList($this->request->get['ticketdepartment_id'],$this->request->get['season_id']);
+
+					if ($model_info) {
+
+						$json = array(
+							'modelData'        => $model_info
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+				public function getColorForModel() {
+					$json = array();
+
+					$this->load->model('module_ticket/support');
+
+					$color_info = $this->model_module_ticket_support->getColorList($this->request->get['model_id']);
+
+					if ($color_info) {
+
+						$json = array(
+							'colorData'        => $color_info
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+				public function getSeatForModel() {
+					$json = array();
+
+					$this->load->model('module_ticket/support');
+
+					$seat_info = $this->model_module_ticket_support->getSeatList($this->request->get['model_id']);
+
+					if ($seat_info) {
+
+						$json = array(
+							'seatData'        => $seat_info
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+				public function getShapeForModel() {
+					$json = array();
+
+					$this->load->model('module_ticket/support');
+
+					$shape_info = $this->model_module_ticket_support->getShapeList($this->request->get['model_id']);
+
+					if ($shape_info) {
+
+						$json = array(
+							'shapeData'        => $shape_info
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+				public function getErrorForModel() {
+					$json = array();
+
+					$this->load->model('module_ticket/support');
+
+					$error_info = $this->model_module_ticket_support->getErrorList($this->request->get['model_id']);
+
+					if ($error_info) {
+
+						$json = array(
+							'modelErrorData'        => $error_info
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['ticketdepartments'] = $this->model_module_ticket_support->getTicketdepartments();
+			]]></search>
+            <add><![CDATA[
+				$this->load->model('localisation/country');
+				$data['countries'] = $this->model_localisation_country->getCountries();
+				$data['isMerchant'] = $this->ticketuser->getIsMerchant();
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				public function fileupload() {
+			]]></search>
+            <add><![CDATA[
+				public function getShopForCountry() {
+					$json = array();
+					
+					$this->load->model('module_ticket/support');
+					$shopListInfo = $this->model_module_ticket_support->getShopList($this->request->get['country_id']);
+					
+					if($shopListInfo){
+						$json = array(
+							'shopList'        => $shopListInfo,
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+				public function getShopCityForCountry() {
+					$json = array();
+					
+					$this->load->model('module_ticket/support');
+					$shopCityListInfo = $this->model_module_ticket_support->getShopCityList($this->request->get['country_id']);
+					
+					if($shopCityListInfo){
+						$json = array(
+							'shopCityList'        => $shopCityListInfo,
+						);
+					}
+
+					$this->response->addHeader('Content-Type: application/json');
+					$this->response->setOutput(json_encode($json));
+				}
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/model/module_ticket/support.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				public function getTicketdepartment($ticketdepartment_id) {
+			]]></search>
+            <add><![CDATA[
+				public function getShopList($country_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "address  WHERE trim(coalesce(company, '')) <>'' AND country_id='" . (int)$country_id . "' ORDER BY company ASC");
+
+					return $query->rows;
+				}
+				public function getShopCityList($country_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "zip  WHERE country_id='" . (int)$country_id . "' ORDER BY name ASC");
+
+					return $query->rows;
+				}
+				public function getSeasonList() {
+					$query = $this->db->query("SELECT DISTINCT season FROM " . DB_PREFIX . "ticketmodel ORDER BY season ASC");
+
+					return $query->rows;
+				}
+				public function getModelList($ticketdepartment_id, $season_id ) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "ticketmodel WHERE ticketdepartment_id = '" . (int)$ticketdepartment_id . "' AND season = '" . (int)$season_id . "' ORDER BY code ASC");
+
+					return $query->rows;
+				}
+				public function getColorList($model_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "intexcolor c LEFT JOIN " . DB_PREFIX . "intexcolor_description cd ON c.id=cd.color_id WHERE c.ticketmodel_id ='" . (int)$model_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name ASC");
+
+					return $query->rows;
+				}
+				public function getSeatList($model_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "intexseat s LEFT JOIN " . DB_PREFIX . "intexseat_description sd ON s.id=sd.seat_id WHERE s.ticketmodel_id ='" . (int)$model_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name ASC");
+
+					return $query->rows;
+				}
+				public function getShapeList($model_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "intexshape s LEFT JOIN " . DB_PREFIX . "intexshape_description sd ON s.id=sd.shape_id WHERE s.ticketmodel_id ='" . (int)$model_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY name ASC");
+
+					return $query->rows;
+				}
+				public function getErrorList($model_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "ticketerror_description ted LEFT JOIN " . DB_PREFIX . "ticketmodel_to_ticketerror tte ON ted.ticketerror_id = tte.ticketerror_id WHERE tte.ticketmodel_id='" . (int)$model_id . "' AND language_id = '" . (int)$this->config->get('config_language_id') . "' ORDER BY errorname ASC");
+
+					return $query->rows;
+				}
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/view/theme/*/template/support/request_form.tpl">
+		<!-- 01InputScreen -->
+		<operation error="skip">
+			<search position="after" offset="4"><![CDATA[
+				<div class="text-danger"><?php echo $error_email; ?></div>
+			]]></search>
+			<add><![CDATA[
+				<div class="form-group checkbox">
+					<div class="col-sm-12">
+						<label class="col-sm-12" style="font-weight:bold;">
+							<input type="checkbox" name="purchased_online" class="js-purchased-online" /> 
+							<?php echo $entry_purchase_online; ?>
+						</label>
+					</div>
+					<script>
+						$(document).ready(function(){
+							$('.js-purchased-online').on('change',function(){
+								if($(this).prop("checked") == true){
+									$('.js-shop').attr('disabled','disabled');
+									$('.js-shop').closest('.form-group').fadeOut();
+								}
+								else{
+									$('.js-shop').removeAttr('disabled');
+									$('.js-shop').closest('.form-group').fadeIn();
+								}
+							});
+						});
+					</script>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_purchased_in; ?></label>
+					<div class="col-sm-12">
+						<select class="form-control" name="purchased_country_id">
+							<option value=""><?php echo $text_purchased_in_select; ?></option>
+							<?php foreach ($countries as $country) { ?>
+								<option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+							<?php } ?>
+						</select>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_shop; ?></label>
+					<div class="col-sm-12">
+						<select class="form-control js-shop" name="shop_id">
+							<option value=""><?php echo $text_shop_select; ?></option>
+							<?php foreach($shopList as $shop) { ?>						
+								<option value="<?php echo $shop['customer_id']; ?>"><?php echo $shop['company']; ?></option>
+							<?php } ?>
+						</select>
+						<script type="text/javascript">
+							$('select[name=\'purchased_country_id\']').on('change.ticketrequestshop', function() {
+								$.ajax({
+									url: 'index.php?route=support/request_form/getShopForCountry&country_id=' + this.value,
+									dataType: 'json',
+									beforeSend: function() {
+										$('select[name=\'purchased_country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+									},
+									complete: function() {
+										$('.fa-spin').remove();
+									},
+									success: function(json) {
+										html = '<option value=""><?php echo $text_shop_select; ?></option>';
+										if (json['shopList'] && json['shopList'] != '') {
+											for (i = 0; i < json['shopList'].length; i++) {
+												html += '<option value="' + json['shopList'][i]['customer_id'] + '"';
+												html += '>' + json['shopList'][i]['company'] + '</option>';
+											}
+										} else {
+											//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+										}
+
+										$('select[name=\'shop_id\']').html(html);
+									},
+									error: function(xhr, ajaxOptions, thrownError) {
+										alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+									}
+								});
+							});
+
+							$('select[name=\'purchased_country_id\']').trigger('change.ticketrequestshop');
+						</script>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_shop_city; ?></label>
+					<div class="col-sm-12">
+						<select class="form-control js-shop" name="shop_city_id">
+							<option value=""><?php echo $text_shop_city_select; ?></option>
+							<?php foreach($shopCityList as $shopCity) { ?>						
+								<option value="<?php echo $shopCity['id']; ?>"><?php echo $shopCity['name']; ?></option>
+							<?php } ?>
+						</select>
+						<script type="text/javascript">
+							$('select[name=\'purchased_country_id\']').on('change.ticketrequestshopcity', function() {
+								$.ajax({
+									url: 'index.php?route=support/request_form/getShopCityForCountry&country_id=' + this.value,
+									dataType: 'json',
+									beforeSend: function() {
+										$('select[name=\'purchased_country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+									},
+									complete: function() {
+										$('.fa-spin').remove();
+									},
+									success: function(json) {
+										html = '<option value=""><?php echo $text_shop_city_select; ?></option>';
+										if (json['shopCityList'] && json['shopCityList'] != '') {
+											for (i = 0; i < json['shopCityList'].length; i++) {
+												html += '<option value="' + json['shopCityList'][i]['id'] + '"';
+												html += '>' + json['shopCityList'][i]['name'] + '</option>';
+											}
+										} else {
+											//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+										}
+
+										$('select[name=\'shop_city_id\']').html(html);
+									},
+									error: function(xhr, ajaxOptions, thrownError) {
+										alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+									}
+								});
+							});
+
+							$('select[name=\'purchased_country_id\']').trigger('change.ticketrequestshopcity');
+						</script>
+					</div>
+				</div>
+			]]></add>
+		</operation>
+		<operation error="skip">
+            <search position="replace" offset="1"><![CDATA[
+				<select class="form-control" name="ticketdepartment_id">
+			]]></search>
+            <add><![CDATA[
+				<select class="form-control" name="ticketdepartment_id">
+                	<option value=""><?php echo $text_department_select; ?></option>
+			]]></add>
+        </operation>
+		<operation error="skip">
+			<search position="after" offset="3"><![CDATA[
+				<div class="text-danger"><?php echo $error_ticketdepartment; ?></div>
+			]]></search>
+			<add><![CDATA[
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_season; ?></label>
+					<div class="col-sm-12">
+					<select class="form-control" name="season_id">
+						<option value=""><?php echo $text_season_select; ?></option>
+						<?php foreach ($seasonList as $season) { ?>
+							<option value="<?php echo $season['season']; ?>"><?php echo $season['season']; ?></option>
+						<?php } ?>
+					</select>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_model; ?></label>
+					<div class="col-sm-12">
+					<select class="form-control" name="model_id">
+						<option value=""><?php echo $text_model_select; ?></option>
+					</select>
+					<script type="text/javascript">
+						$('select[name=\'ticketdepartment_id\'],select[name=\'season_id\']').on('change', function() {
+							var urlForModel ='index.php?route=support/request_form/getModel&ticketdepartment_id=' 
+								+ $('select[name=\'ticketdepartment_id\']').val() +'&season_id='+ $('select[name=\'season_id\']').val(); 
+							$.ajax({
+								url: urlForModel,
+								dataType: 'json',
+									beforeSend: function() {
+									$('select[name=\'model_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+
+									html = '<option value=""><?php echo $text_model_select; ?></option>';
+									if (json['modelData'] && json['modelData'] != '') {
+										for (i = 0; i < json['modelData'].length; i++) {
+											html += '<option value="' + json['modelData'][i]['id'] + '"';
+											html += '>' + json['modelData'][i]['name'] + '</option>';
+										}
+									} else {
+										//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+									}
+
+									$('select[name=\'model_id\']').html(html);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						//$('select[name=\'ticketdepartment_id\']').trigger('change');
+					</script>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_color; ?></label>
+					<div class="col-sm-12">
+					<select class="form-control" name="color_id">
+						<option value=""><?php echo $text_color_select; ?></option>
+					</select>
+					<script type="text/javascript">
+						$('select[name=\'model_id\']').on('change.color', function() {
+							var urlForColor ='index.php?route=support/request_form/getColorForModel&model_id=' 
+								+ this.value; 
+							$.ajax({
+								url: urlForColor,
+								dataType: 'json',
+									beforeSend: function() {
+									$('select[name=\'color_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+
+									html = '<option value=""><?php echo $text_color_select; ?></option>';
+									if (json['colorData'] && json['colorData'] != '') {
+										for (i = 0; i < json['colorData'].length; i++) {
+											html += '<option value="' + json['colorData'][i]['id'] + '"';
+											html += '>' + json['colorData'][i]['name'] + '</option>';
+										}
+										$('select[name=\'color_id\']').closest('.form-group').fadeIn();
+										$('select[name=\'color_id\']').removeAttr('disabled');
+									} else {
+										//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+										$('select[name=\'color_id\']').closest('.form-group').fadeOut();
+										$('select[name=\'color_id\']').attr('disabled','disabled');
+									}
+
+									$('select[name=\'color_id\']').html(html);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						//$('select[name=\'model_id\']').trigger('change.color');
+					</script>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_seats; ?></label>
+					<div class="col-sm-12">
+					<select class="form-control" name="seat_id">
+						<option value=""><?php echo $text_seat_select; ?></option>
+						<?php foreach($seatList as $seat) { ?>
+							<option value="<?php echo $seat['seat_id']; ?>"><?php echo $seat['name']; ?></option>
+						<?php } ?>
+					</select>
+					<script type="text/javascript">
+						$('select[name=\'model_id\']').on('change.seat', function() {
+							var urlForColor ='index.php?route=support/request_form/getSeatForModel&model_id=' 
+								+ this.value; 
+							$.ajax({
+								url: urlForColor,
+								dataType: 'json',
+									beforeSend: function() {
+									$('select[name=\'seat_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+
+									html = '<option value=""><?php echo $text_seat_select; ?></option>';
+									if (json['seatData'] && json['seatData'] != '') {
+										for (i = 0; i < json['seatData'].length; i++) {
+											html += '<option value="' + json['seatData'][i]['id'] + '"';
+											html += '>' + json['seatData'][i]['name'] + '</option>';
+										}
+										$('select[name=\'seat_id\']').closest('.form-group').fadeIn();
+										$('select[name=\'seat_id\']').removeAttr('disabled');
+									} else {
+										//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+										$('select[name=\'seat_id\']').closest('.form-group').fadeOut();
+										$('select[name=\'seat_id\']').attr('disabled','disabled');
+									}
+
+									$('select[name=\'seat_id\']').html(html);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						//$('select[name=\'model_id\']').trigger('change.seat');
+					</script>
+					</div>
+				</div>
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_shape; ?></label>
+					<div class="col-sm-12">
+					<select class="form-control" name="shape_id">
+						<option value=""><?php echo $text_shape_select; ?></option>
+						<?php foreach($shapeList as $shape) { ?>
+							<option value="<?php echo $shape['shape_id']; ?>"><?php echo $shape['name']; ?></option>
+						<?php } ?>
+					</select>
+					<script type="text/javascript">
+						$('select[name=\'model_id\']').on('change.shape', function() {
+							var urlForColor ='index.php?route=support/request_form/getShapeForModel&model_id=' 
+								+ this.value; 
+							$.ajax({
+								url: urlForColor,
+								dataType: 'json',
+									beforeSend: function() {
+									$('select[name=\'shape_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+
+									html = '<option value=""><?php echo $text_shape_select; ?></option>';
+									if (json['shapeData'] && json['shapeData'] != '') {
+										for (i = 0; i < json['shapeData'].length; i++) {
+											html += '<option value="' + json['shapeData'][i]['id'] + '"';
+											html += '>' + json['shapeData'][i]['name'] + '</option>';
+										}
+										$('select[name=\'shape_id\']').closest('.form-group').fadeIn();
+										$('select[name=\'shape_id\']').removeAttr('disabled');
+									} else {
+										//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+										$('select[name=\'shape_id\']').closest('.form-group').fadeOut();
+										$('select[name=\'shape_id\']').attr('disabled','disabled');
+									}
+
+									$('select[name=\'shape_id\']').html(html);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						//$('select[name=\'model_id\']').trigger('change.shape');
+					</script>
+					</div>
+				</div>
+				<div class="form-group checkbox">
+					<label class="col-sm-12 control-label" style="font-weight:bold;"><?php echo $entry_errors; ?></label>
+					<div class="col-sm-12 js-model-error-codes">
+					</div>
+					<script type="text/javascript">
+						$('select[name=\'model_id\']').on('change.error', function() {
+							var urlForColor ='index.php?route=support/request_form/getErrorForModel&model_id=' 
+								+ this.value; 
+							$.ajax({
+								url: urlForColor,
+								dataType: 'json',
+									beforeSend: function() {
+									$('.js-model-error-codes').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+									var errorhtml='';
+									if (json['modelErrorData'] && json['modelErrorData'] != '') {
+										for (i = 0; i < json['modelErrorData'].length; i++) {
+
+											errorhtml += '<label class="col-sm-12" style="font-weight:bold;">';
+											errorhtml += '<input type="checkbox" name="error_id[]" value="' + json['modelErrorData'][i]['id'] + '"/> ';
+											errorhtml +=	json['modelErrorData'][i]['errorname'] +'</label>';
+
+										}
+										$('.js-model-error-codes').closest('.form-group').fadeIn();
+									} else {
+										errorhtml='';
+										$('.js-model-error-codes').closest('.form-group').fadeOut();
+									}
+
+									$('.js-model-error-codes').html(errorhtml);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						//$('select[name=\'model_id\']').trigger('change.error');
+					</script>
+				</div>
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after" offset="5"><![CDATA[
+				<textarea class="form-control" name="message" rows="10"><?php echo $message; ?></textarea>
+			]]></search>
+			<add><![CDATA[
+				<div class="form-group required">
+					<label class="col-sm-12 control-label"><?php echo $entry_date_purchased; ?></label>
+					<div class="col-sm-3">
+						<input type="date" name="date_purchased" class="form-control js-date_purchased" data-current-date="<?php echo date('Y-M-d') ?>"  max="<?php echo date('Y-m-d') ?>"
+						value="<?php echo $email; ?>" />
+						<?php if ($error_email) { ?>
+						<div class="text-danger"><?php echo $error_email; ?></div>
+						<?php } ?>
+					</div>
+					<script>
+						function diff_years(dt2, dt1){
+							var diff =(dt2.getTime() - dt1.getTime()) / 1000;
+							diff /= (60 * 60 * 24);
+							return Math.abs(diff/365.25);
+						}
+						$(document).ready(function(){
+							$('#button-upload').closest('.form-group').hide();
+							$('.js-date_purchased').on('change',function(){
+								dt1 = new Date($(this).data('current-date'));
+								dt2 = new Date($(this).val());
+								console.log(diff_years(dt1, dt2));
+								if(diff_years(dt1, dt2) < 2){
+									$('#button-upload').closest('.form-group').fadeIn();
+								}
+								else{
+									$('#button-upload').closest('.form-group').fadeOut();
+								}
+							});
+						});
+					</script>
+				</div>
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="after" offset="1"><![CDATA[
+				<button type="button" id="button-upload" data-loading-text="<?php echo $text_loading; ?>" class="btn btn-default btn-block"><i class="fa fa-paperclip"></i> <?php echo $button_add_file; ?></button>
+			]]></search>
+			<add><![CDATA[
+				<div class="">
+					<label class="col-sm-12" style="font-weight:bold;">
+						<input type="checkbox" name="purchased_no_valid_warranty" class="js-purchased-no-valid-warranty" /> 
+						<?php echo $entry_no_valid_warranty; ?>
+					</label>
+				</div>
+				<script>
+					$(document).ready(function(){
+						$('.js-purchased-no-valid-warranty').on('change',function(){
+							if($(this).prop("checked") == true){
+								$('#button-upload').attr('disabled','disabled');
+								$('.upload-group .new-file').remove();
+							}
+							else{
+								$('#button-upload').removeAttr('disabled');
+							}
+						});
+					});
+				</script>
+			]]></add>
+		</operation>
+		<!-- 02SendTickeInfo start-->
+		<operation error="skip">
+			<search position="before"><![CDATA[
+				<?php echo $footer; ?>
+			]]></search>
+			<add><![CDATA[
+				<script>
+				var loginFromSubmitClick = false,
+					submitAFterLogin = false;
+					$(document).ready(function(){
+					 var invalidForm = true;
+						$('form.ticket-form').find('input').attr('required','required');
+						$('form.ticket-form').find('textarea').attr('required','required');
+						$('form.ticket-form').find('input[name="purchased_online"],input[name="purchased_no_valid_warranty"],input[name="customer_no_internet"]').removeAttr('required');
+						$('form.ticket-form').find('input[name="error_id"]').removeAttr('required');
+
+						$('form.ticket-form').find('select').attr('required','required');
+
+						$('form.ticket-form').find('textarea').attr('minlength',10);
+						$('form.ticket-form input[type="submit"]').on('click.formRequestSubmit',function(e){
+							e.preventDefault();
+							if($('form.ticket-form')[0].checkValidity()){
+								if(submitAFterLogin){
+									$('form.ticket-form').submit();
+								}
+								else{
+									if(!$('input[name="purchased_no_valid_warranty"]').prop('checked')
+										&& !$('input[name="attachments[]"]').length){
+										invalidForm = true;
+										if(!$('#button-upload').parent().find('.text-danger').length){
+											$('#button-upload').after('<div class="text-danger">Error Required</div>');
+										}
+									}
+									else{
+										invalidForm = false;
+									}
+									if(!invalidForm){
+										if($('.js-is-logged').val() === ''){
+											loginFromSubmitClick = true;
+
+											var formEmailVal = $('form.ticket-form input[name="email"]').val();
+											$('#modalLoginForm #panel-login input[name="email"]').val(formEmailVal);
+											$('#modalLoginForm').modal('show');
+										}
+										else{
+											submitAFterLogin = true;
+											$('form.ticket-form').submit();
+										}
+									}
+								}
+							}
+							else{
+								$('form.ticket-form')[0].reportValidity()
+							}
+						});
+					});
+				</script>
+			]]></add>
+		</operation>
+		<!-- 02SendTickeInfo end-->
+		<!-- 11IfMerchantIsLoggedIn start -->
+		<operation error="skip">
+			<search position="replace"><![CDATA[
+				<?php if(!$logged) { ?>
+			]]></search>
+			<add><![CDATA[
+				<?php if(!$logged || $isMerchant == 1) { ?>
+			]]></add>
+		</operation>
+		<operation error="skip">
+			<search position="before" offset="3"><![CDATA[
+				<input type="checkbox" name="purchased_online" class="js-purchased-online" /> 
+			]]></search>
+			<add><![CDATA[
+				<?php if($logged && $isMerchant == 1) { ?>
+					<div class="form-group required" style="display:none;">
+						<label class="col-sm-12 control-label">customer info</label>
+						<div class="col-sm-12">
+							<textarea class="form-control js-customer-info" name="customer_info" rows="10" placeholder="customer info" disabled="disabled"></textarea>
+						</div>
+					</div>
+					<div class="form-group checkbox">
+						<div class="col-sm-12">
+							<label class="col-sm-12" style="font-weight:bold;">
+								<input type="checkbox" name="customer_no_internet" class="js-customer-no-internet"/> 
+								<!-- <?php echo $entry_purchase_online; ?> -->
+								Customer has no Internet
+							</label>
+						</div>
+						<script>
+							$(document).ready(function(){
+								$('.js-customer-no-internet').on('change.customernointernet',function(){
+									if($(this).prop("checked") == true){
+										$('input[name="email"]').attr('disabled','disabled');
+										$('input[name="email"]').closest('.form-group').fadeOut();
+										
+										$('.js-customer-info').removeAttr('disabled');
+										$('.js-customer-info').closest('.form-group').fadeIn();
+									}
+									else{
+										$('input[name="email"]').removeAttr('disabled');
+										$('input[name="email"]').closest('.form-group').fadeIn();
+
+										$('.js-customer-info').attr('disabled','disabled');
+										$('.js-customer-info').closest('.form-group').fadeOut();
+									}
+								});
+							});
+						</script>
+					</div>
+				<?php } ?>
+			]]></add>
+		</operation>
+		<!-- 11IfMerchantIsLoggedIn end -->
+	</file>
+	<file name="catalog/model/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketrequest SET ticketuser_id = '". (int)$ticketuser_id ."', ticketdepartment_id = '". (int)$data['ticketdepartment_id'] ."', email = '". $this->db->escape($email) ."', subject = '". $this->db->escape($data['subject']) ."', message = '". $this->db->escape($data['message']) ."', attachments = '". $this->db->escape($attachments_json_encode) ."', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', ticketstatus_id = '". (int)$this->config->get('ticketsetting_ticketstatus_id') ."', date_added = NOW(), date_modified = NOW()");
+			]]></search>
+            <add><![CDATA[
+				$ticketmerchant_id = (int)$data['shop_id'];
+				$ticketshop_city_id = (int)$data['shop_city_id'];
+				$ticketmodel_id = (int)$data['model_id'];
+				$country_id = (int)$data['purchased_country_id'];
+				$color_id = (int)$data['color_id'];
+				$seat_id = (int)$data['seat_id'];
+				$shape_id = (int)$data['shape_id'];
+				$datePurchased = $data['date_purchased'];
+				$boughtOnline = $data['purchased_online'] ? 1 : 0; 
+				$noWarranty = $data['purchased_no_valid_warranty'] ? 1 : 0;
+				$customerHasNoInternet = $data['customer_no_internet'] ? 1 : 0;
+				$customerinfo = $data['customer_info'] ? $data['customer_info'] : '';
+
+				if($this->ticketuser->getIsMerchant()){
+					if($data['email'] != ''){
+						$email = $data['email'];
+					}
+					else{
+						$email = $this->ticketuser->getEmail();
+					}
+					
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketrequest SET ticketuser_id = '". (int)$ticketuser_id ."', ticketdepartment_id = '". (int)$data['ticketdepartment_id'] ."', email = '". $this->db->escape($email) ."', subject = '". $this->db->escape($data['subject']) ."', message = '". $this->db->escape($data['message']) ."', attachments = '". $this->db->escape($attachments_json_encode) ."', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', ticketstatus_id = '". (int)$this->config->get('ticketsetting_ticketstatus_id') ."', date_added = NOW(), date_modified = NOW()");
+			]]></search>
+            <add><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketrequest SET ticketuser_id = '". (int)$ticketuser_id ."', ticketdepartment_id = '". (int)$data['ticketdepartment_id'] ."', email = '". $this->db->escape($email) ."', subject = '". $this->db->escape($data['subject']) ."', message = '". $this->db->escape($data['message']) ."', attachments = '". $this->db->escape($attachments_json_encode) ."', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', ticketstatus_id = '". (int)$this->config->get('ticketsetting_ticketstatus_id') ."', date_added = NOW(), date_modified = NOW(), ticketmerchant_id = '". (int)$ticketmerchant_id ."', city_id = '". (int)$ticketshop_city_id ."', ticketmodel_id = '". (int)$ticketmodel_id ."', country_id = '". (int)$country_id ."', color_id = '". (int)$color_id ."', seat_id = '". (int)$seat_id ."', shape_id = '". (int)$shape_id ."', datePurchased = '". $datePurchased ."', boughtOnline = '". (int)$boughtOnline ."', noWarranty = '". (int)$noWarranty ."', customerHasNoInternet = '". (int)$customerHasNoInternet ."', customerinfo = '". $customerinfo ."' ");
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				if(!empty($ticketsetting_email['createtickettouser']['status'])) {
+			]]></search>
+            <add><![CDATA[
+				if(!$this->ticketuser->getIsMerchant()){
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				if(!empty($ticketsetting_email['createtickettoadmin']['status'])) {
+			]]></search>
+            <add><![CDATA[
+				if(!$this->ticketuser->getIsMerchant()){
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" index="1,2" offset="1"><![CDATA[
+				$mail->send();
+			]]></search>
+            <add><![CDATA[
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$this->load->language('support/mail_ticketrequest');
+			]]></search>
+            <add><![CDATA[
+				$subject_register = sprintf($this->language->get('text_subject'), $data['subject']);
+
+				$link_register = str_replace('&amp;', '&', $this->url->link('support/request_form', 'login=1', true)); 
+
+				$message_register = sprintf($this->language->get('text_welcome'), $ticketrequest_id) . "<br/><br/>";
+
+				$message_register .= $this->language->get('text_additional') . "<br/>";
+
+				$message_register .= $link . "<br/><br/>";
+
+				$message_register .= nl2br($data['message']);
+				$message_register .= "<br/><br/>";
+
+				$html_register = '';
+				$html_register .= '<html>';
+				$html_register .= '<head></thead>';
+				$html_register .= '<body style="line-height: 25px;">';
+				$html_register .= $message;
+				$html_register .= '</body>';
+				$html_register .= '</html>';
+
+				if(VERSION >= '3.0.0.0') {
+					$mail = new Mail($this->config->get('config_mail_engine'));
+					$mail->parameter = $this->config->get('config_mail_parameter');
+					$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+					$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+					$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+					$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+					$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+				} else if(VERSION <= '2.0.1.1') {
+					$mail = new Mail($this->config->get('config_mail'));
+				} else {
+					$mail = new Mail();
+					$mail->protocol = $this->config->get('config_mail_protocol');
+					$mail->parameter = $this->config->get('config_mail_parameter');
+					$mail->smtp_hostname = $this->config->get('config_mail_smtp_hostname');
+					$mail->smtp_username = $this->config->get('config_mail_smtp_username');
+					$mail->smtp_password = html_entity_decode($this->config->get('config_mail_smtp_password'), ENT_QUOTES, 'UTF-8');
+					$mail->smtp_port = $this->config->get('config_mail_smtp_port');
+					$mail->smtp_timeout = $this->config->get('config_mail_smtp_timeout');
+				}
+
+				$mail->setTo($email);
+				$mail->setFrom($this->config->get('config_email'));
+				$mail->setSender(html_entity_decode($this->config->get('config_name'), ENT_QUOTES, 'UTF-8'));
+				$mail->setSubject($subject_register);
+				$mail->setHtml(html_entity_decode($html_register, ENT_QUOTES, 'UTF-8'));
+
+				$mail->send();
+			]]></add>
+        </operation>
+	</file>
+	<!-- 03LogonRequired start -->
+	<file name="catalog/controller/support/header.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				if(isset($this->request->get['login'])) {
+			]]></search>
+            <add><![CDATA[
+				$this->load->model('localisation/country');
+				$data['countries'] = $this->model_localisation_country->getCountries();
+
+				$data['entry_first_name'] = $this->language->get('entry_first_name');
+				$data['entry_last_name'] = $this->language->get('entry_last_name');
+				$data['entry_street'] = $this->language->get('entry_street');
+				$data['entry_house_number'] = $this->language->get('entry_house_number');
+				$data['entry_city'] = $this->language->get('entry_city');
+				$data['entry_zip'] = $this->language->get('entry_zip');
+				$data['entry_select_country'] = $this->language->get('entry_select_country');
+				$data['entry_select_province'] = $this->language->get('entry_select_province');
+				$data['entry_mobile_number'] = $this->language->get('entry_mobile_number');
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				if(isset($this->request->get['login'])) {
+			]]></search>
+            <add><![CDATA[
+				if($this->ticketuser->isLogged()){
+					$ticketuser_info = $this->model_module_ticket_ticketuser->getTicketUser($this->ticketuser->getId());
+					$data['isMerchant'] = $ticketuser_info['isMerchant'];
+					
+					if($this->ticketuser->getIsMerchant()){
+						$this->load->model('account/customer');
+						$customer_info = $this->model_account_customer->getCustomer($ticketuser_info['customer_id']);
+						$this->load->model('module_ticket/support');
+						$address_info = $this->model_module_ticket_support->getCompanyNameForMerchant($customer_info['address_id'],$ticketuser_info['customer_id']);
+						$data['companyName'] = $address_info['company'];
+					}
+				}
+			]]></add>
+        </operation>
+		<!-- language addition start-->
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				if(isset($this->request->get['login'])) {
+			]]></search>
+            <add><![CDATA[
+				$data['language'] = $this->load->controller('common/language');
+			]]></add>
+        </operation>
+		<!-- language addition end-->
+	</file>
+	<file name="catalog/model/module_ticket/support.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				public function getTicketdepartment($ticketdepartment_id) {
+			]]></search>
+            <add><![CDATA[
+				public function getCompanyNameForMerchant($address_id,$customer_id) {
+					$query = $this->db->query("SELECT * FROM " . DB_PREFIX . "address WHERE address_id = '" . (int)$address_id . "' AND customer_id = '" . (int)$customer_id . "'");
+
+					return $query->row;
+				}
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/view/theme/*/template/support/header.tpl">
+		<!-- language addition start-->
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				<div class="col-sm-4">
+			]]></search>
+            <add><![CDATA[
+				<style>
+					.ticket-language-selector .btn-link{
+					    color: #888;
+						text-shadow: 0 1px 0 #FFF;
+						text-decoration: none;
+					}
+					.ticket-language-selector .btn-link.dropdown-toggle{
+						color: #fff;
+    					margin-top: 15px;
+					}
+					.ticket-language-selector .language-select {
+						text-align: left;
+					}
+					.ticket-language-selector .language-select:hover {
+						text-shadow: none;
+						color: #ffffff;
+						background-color: #229ac8;
+						background-image: linear-gradient(to bottom, #23a1d1, #1f90bb);
+						background-repeat: repeat-x;
+					}
+					@media screen and (max-width:767px){
+						ul.ticket-links  > li{
+					    	margin-bottom: 5px;
+						}
+					}
+				</style>
+				<div class="ticket-language-selector">
+				<?php echo $language; ?>
+				</div>
+				<div class="col-xs-2 col-sm-2">
+			]]></add>
+        </operation>
+		<!-- language addition end-->
+		<operation error="skip">
+            <search position="replace" offset="5"><![CDATA[
+				<div class="tab-pane fade" id="panel-register" role="tabpanel">
+			]]></search>
+            <add><![CDATA[
+				<div class="tab-pane fade" id="panel-register" role="tabpanel">
+					<div class="modal-body">
+						<div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="ticket-firstname" type="text" class="form-control" name="firstname" value="" placeholder="<?php echo $entry_first_name; ?>">     
+						</div>
+						<div style="margin-bottom: 25px" class="input-group">
+                            <span class="input-group-addon"><i class="glyphicon glyphicon-user"></i></span>
+                            <input id="ticket-lastname" type="text" class="form-control" name="lastname" value="" placeholder="<?php echo $entry_last_name; ?>">
+						</div>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="1"><![CDATA[
+				<input id="ticket-confirm" type="password" class="form-control" name="confirm" value="" placeholder="<?php echo $entry_password_confirm; ?>">
+			]]></search>
+            <add><![CDATA[
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-road"></i></span>
+					<input id="ticket-address-1" type="text" class="form-control" name="address_1" value="" placeholder="<?php echo $entry_street; ?>">     
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-home"></i></span>
+					<input id="ticket-address-2" type="text" class="form-control" name="address_2" value="" placeholder="<?php echo $entry_house_number; ?>">     
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-flag"></i></span>
+					<select id="ticket-country-id" class="form-control" name="country_id">
+						<option value=""><?php echo $entry_select_country; ?></option>
+						<?php foreach ($countries as $country) { ?>
+							<option value="<?php echo $country['country_id']; ?>"><?php echo $country['name']; ?></option>
+						<?php } ?>
+					</select>
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-globe"></i></span>
+					<select id="ticket-zone-id" name="zone_id" class="form-control">
+              		</select>
+					<script type="text/javascript">
+						$('select[name=\'country_id\']').on('change.ticketregisterzone', function() {
+							$.ajax({
+								url: 'index.php?route=account/account/country&country_id=' + this.value,
+								dataType: 'json',
+								beforeSend: function() {
+									$('select[name=\'country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+									if (json['postcode_required'] == '1') {
+										$('input[name=\'postcode\']').parent().parent().addClass('required');
+									} else {
+										$('input[name=\'postcode\']').parent().parent().removeClass('required');
+									}
+
+									html = '<option value=""><?php echo $entry_select_province; ?></option>';
+									if (json['zone'] && json['zone'] != '') {
+										for (i = 0; i < json['zone'].length; i++) {
+											html += '<option value="' + json['zone'][i]['zone_id'] + '"';
+
+											if (json['zone'][i]['zone_id'] == '<?php echo $zone_id; ?>') {
+												html += ' selected="selected"';
+											}
+
+											html += '>' + json['zone'][i]['name'] + '</option>';
+										}
+									} else {
+										//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+									}
+
+									$('select[name=\'zone_id\']').html(html);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						$('select[name=\'country_id\']').trigger('change.ticketregisterzone');
+					</script>
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-picture"></i></span>
+					<!-- <input id="ticket-city" type="text" class="form-control" name="city" value="" placeholder="<?php echo $entry_city; ?>">      -->
+					<select id="ticket-city" name="city" class="form-control">
+              		</select>
+					<script type="text/javascript">
+						$('select[name=\'country_id\']').on('change.ticketregisterzone', function() {
+							$.ajax({
+								url: 'index.php?route=support/request_form/getShopCityForCountry&country_id=' + this.value,
+								dataType: 'json',
+								beforeSend: function() {
+									$('select[name=\'country_id\']').after(' <i class="fa fa-circle-o-notch fa-spin"></i>');
+								},
+								complete: function() {
+									$('.fa-spin').remove();
+								},
+								success: function(json) {
+
+									html = '<option value=""><?php echo $entry_city; ?></option>';
+									if (json['shopCityList'] && json['shopCityList'] != '') {
+										for (i = 0; i < json['shopCityList'].length; i++) {
+											html += '<option data-zip="' + json['shopCityList'][i]['zip'] + '" value="' + json['shopCityList'][i]['name'] + '"';
+											html += '>' + json['shopCityList'][i]['name'] + '</option>';
+										}
+									} else {
+										//html += '<option value="0" selected="selected"><?php echo $text_none; ?></option>';
+									}
+
+									$('select[name=\'city\']').html(html);
+								},
+								error: function(xhr, ajaxOptions, thrownError) {
+									alert(thrownError + "\r\n" + xhr.statusText + "\r\n" + xhr.responseText);
+								}
+							});
+						});
+
+						$('select[name=\'country_id\']').trigger('change.ticketregisterzone');
+					</script>
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-qrcode"></i></span>
+					<input id="ticket-postcode" type="text" class="form-control" name="postcode" value="" placeholder="<?php echo $entry_zip; ?>">     
+					<script type="text/javascript">
+						$('select[name=\'city\']').on('change.ticketregistercity', function() {
+							$('#ticket-postcode').val($(this).find('option:selected').data('zip'));
+							$('#ticket-postcode').attr('value',$(this).find('option:selected').data('zip'));
+						});
+					</script>
+				</div>
+				<div style="margin-bottom: 25px" class="input-group">
+					<span class="input-group-addon"><i class="glyphicon glyphicon-phone"></i></span>
+					<input id="ticket-telephone" type="text" class="form-control" name="telephone" value="" placeholder="<?php echo $entry_mobile_number; ?>">     
+				</div>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				<li class="dropdown">
+			]]></search>
+            <add><![CDATA[
+				<input type="hidden" class="js-is-merchant" value="<?php echo $isMerchant; ?>">
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				<?php if($login_link_display) { ?>
+			]]></search>
+            <add><![CDATA[
+				<input type="hidden" class="js-is-logged" value="<?php echo $logged; ?>">
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace" offset="1"><![CDATA[
+				<div class="col-sm-5 pull-right text-right">
+			]]></search>
+            <add><![CDATA[
+			<div class="col-xs-8 col-sm-7 pull-right text-right">
+        		<ul class="list-inline ticket-links">
+				<?php if($logged && $isMerchant) { ?>
+					<li><a href="javascript:void(0);" style="background: #fff;color: #000;padding: 5px;" class="logged-merchant-name"><?php echo $companyName; ?></a></li>
+				<?php } ?>
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/controller/support/ticketuser.php">
+		<operation error="skip">
+            <search position="replace" offset="2" index="1"><![CDATA[
+				if ((utf8_strlen(trim($this->request->post['name'])) < 1) || (utf8_strlen(trim($this->request->post['name'])) > 32)) {
+			]]></search>
+            <add><![CDATA[
+				if ((utf8_strlen(trim($this->request->post['firstname'])) < 1) || (utf8_strlen(trim($this->request->post['firstname'])) > 32)) {
+					$json['error']['option']['firstname'] = $this->language->get('error_firstname');
+				}
+				if ((utf8_strlen(trim($this->request->post['lastname'])) < 1) || (utf8_strlen(trim($this->request->post['lastname'])) > 32)) {
+					$json['error']['option']['lastname'] = $this->language->get('error_lastname');
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="2" index="1"><![CDATA[
+				if ($this->request->post['confirm'] != $this->request->post['password']) {
+			]]></search>
+            <add><![CDATA[
+				if ((utf8_strlen(trim($this->request->post['address_1'])) < 1)) {
+					$json['error']['option']['address_1'] = $this->language->get('error_address_1');
+				}
+				if ((utf8_strlen(trim($this->request->post['address_2'])) < 1)) {
+					$json['error']['option']['address_2'] = $this->language->get('error_address_2');
+				}
+				if ((utf8_strlen(trim($this->request->post['city'])) < 1)) {
+					$json['error']['option']['city'] = $this->language->get('error_city');
+				}
+				if ((utf8_strlen(trim($this->request->post['postcode'])) < 1)) {
+					$json['error']['option']['postcode'] = $this->language->get('error_postcode');
+				}
+				if ((utf8_strlen(trim($this->request->post['country_id'])) < 1)) {
+					$json['error']['option']['country_id'] = $this->language->get('error_country_id');
+				}
+				if ((utf8_strlen(trim($this->request->post['zone_id'])) < 1)) {
+					$json['error']['option']['zone_id'] = $this->language->get('error_zone_id');
+				}
+				if ((utf8_strlen(trim($this->request->post['telephone'])) < 1)) {
+					$json['error']['option']['telephone'] = $this->language->get('error_telephone');
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				'name'	=> isset($this->request->post['name']) ? $this->request->post['name'] : '',
+			]]></search>
+            <add><![CDATA[
+				'firstname'	=> isset($this->request->post['firstname']) ? $this->request->post['firstname'] : '',
+				'lastname'	=> isset($this->request->post['lastname']) ? $this->request->post['lastname'] : '',
+				'address_1'	=> isset($this->request->post['address_1']) ? $this->request->post['address_1'] : '',
+				'address_2'	=> isset($this->request->post['address_2']) ? $this->request->post['address_2'] : '',
+				'city'	=> isset($this->request->post['city']) ? $this->request->post['city'] : '',
+				'postcode'	=> isset($this->request->post['postcode']) ? $this->request->post['postcode'] : '',
+				'country_id'	=> isset($this->request->post['country_id']) ? $this->request->post['country_id'] : '',
+				'zone_id'	=> isset($this->request->post['zone_id']) ? $this->request->post['zone_id'] : '',
+				'telephone'	=> isset($this->request->post['telephone']) ? $this->request->post['telephone'] : '',
+				'company' => '',
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				$ticketuser_id = $this->model_module_ticket_ticketuser->addTicketUser($add_data);
+			]]></search>
+            <add><![CDATA[
+				$this->load->model('account/customer');
+				$customer_id = $this->model_account_customer->addCustomer($add_data);
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace" offset="2" index="1"><![CDATA[
+				$ticketuser_id = $this->model_module_ticket_ticketuser->addTicketUser($add_data);
+			]]></search>
+            <add><![CDATA[
+				$ticketuser_id = $this->model_module_ticket_ticketuser->addTicketUser($add_data,$customer_id);
+				$this->load->model('account/address');
+				$this->model_account_address->addAddress($customer_id, $add_data);
+			]]></add>
+        </operation>
+		<!-- <operation error="skip">
+            <search position="before"><![CDATA[
+				$this->ticketuser->login($this->request->post['email'], $this->request->post['password']);
+			]]></search>
+            <add><![CDATA[
+				$this->load->model('account/address');
+				$this->model_account_address->addAddress($customer_id, $add_data);
+			]]></add>
+        </operation>	 -->
+	</file>
+	<file name="catalog/model/module_ticket/ticketuser.php">
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketuser SET store_id = '" . (int)$this->config->get('config_store_id') . "', language_id = '" . (int)$this->config->get('config_language_id') . "', name = '" . $this->db->escape($customer_info['firstname'] .' '. $customer_info['lastname']) . "', email = '" . $this->db->escape($customer_info['email']) . "', salt = '" . $this->db->escape($customer_info['salt']) . "', password = '" . $this->db->escape($customer_info['password']) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', date_added = NOW()");
+			]]></search>
+            <add><![CDATA[
+				$isMerchant = 0;
+				if((int)$customer_info['customer_group_id'] != 1){
+					$isMerchant = 1;
+				}
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketuser SET customer_id = '" . (int)$this->db->escape($customer_id) . "',isMerchant = '" . (int)$this->db->escape($isMerchant) . "',store_id = '" . (int)$this->config->get('config_store_id') . "', language_id = '" . (int)$this->config->get('config_language_id') . "', name = '" . $this->db->escape($customer_info['firstname'] .' '. $customer_info['lastname']) . "', email = '" . $this->db->escape($customer_info['email']) . "', salt = '" . $this->db->escape($customer_info['salt']) . "', password = '" . $this->db->escape($customer_info['password']) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', date_added = NOW()");
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				public function addTicketUser($data) {
+			]]></search>
+            <add><![CDATA[
+				public function addTicketUser($data,$customer_id) {
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketuser SET store_id = '" . (int)$this->config->get('config_store_id') . "', language_id = '" . (int)$this->config->get('config_language_id') . "', name = '" . $this->db->escape($data['name']) . "', email = '" . $this->db->escape($data['email']) . "', salt = '" . $this->db->escape($salt = $this->token(9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', date_added = NOW()");
+			]]></search>
+            <add><![CDATA[
+				//$this->db->query("INSERT INTO " . DB_PREFIX . "ticketuser SET store_id = '" . (int)$this->config->get('config_store_id') . "', language_id = '" . (int)$this->config->get('config_language_id') . "', name = '" . $this->db->escape($data['firstname'].' '.$data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', salt = '" . $this->db->escape($salt = $this->token(9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', date_added = NOW()");
+				$this->db->query("INSERT INTO " . DB_PREFIX . "ticketuser SET customer_id = '" . (int)$this->db->escape($customer_id) . "',isMerchant = '0',store_id = '" . (int)$this->config->get('config_store_id') . "', language_id = '" . (int)$this->config->get('config_language_id') . "', name = '" . $this->db->escape($data['firstname'].' '.$data['lastname']) . "', email = '" . $this->db->escape($data['email']) . "', salt = '" . $this->db->escape($salt = $this->token(9)) . "', password = '" . $this->db->escape(sha1($salt . sha1($salt . sha1($data['password'])))) . "', ip = '" . $this->db->escape($this->request->server['REMOTE_ADDR']) . "', status = '1', date_added = NOW()");
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$message .= $this->language->get('text_name') . ' ' . $data['name'] . "\n";
+			]]></search>
+            <add><![CDATA[
+				$message .= $this->language->get('text_name') . ' ' . $data['firstname'].' '.$data['lastname'] . "\n";
+			]]></add>
+        </operation>
+	</file>
+	<!-- 03LogonRequired end-->
+	<!-- 05OverviewOfTicketForTheConsumer,06OverviewOfTicketForWholesaler start -->
+	<file name="catalog/controller/support/request_list.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				'ticketrequest_id'  => $result['ticketrequest_id'],
+			]]></search>
+            <add><![CDATA[
+				'ticketmodel_name'  => $result['model_name'],
+				'ticketcolor_name'  => $result['color_name'],
+				'ticketseat_name'  => $result['seat_name'],
+				'ticketshape_name'  => $result['ticketshape_name'],
+				'ticketDatePurchased'  => date('d M Y', strtotime($result['datePurchased'])),
+				'company_name'  => $this->ticketuser->getIsMerchant() ? (isset($result['customerHasNoInternet']) && $result['customerHasNoInternet'] ? $result['customerinfo'] : $result['company_name']) : ($result['company_name'] ? $result['company_name'] : $this->language->get('column_text_online')),
+				'ticketboughtonline'  => $result['boughtonline'],
+				'ticketshop_city'  => !$result['boughtonline'] && $result['shopCity'] ? $result['shopCity'] : '',
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				$data['content_bottom'] = $this->load->controller('common/content_bottom');
+			]]></search>
+            <add><![CDATA[
+				$data['isMerchant'] = $this->ticketuser->getIsMerchant();
+				$data['column_shop'] = $this->language->get('column_shop');
+				$data['column_consumer'] = $this->language->get('column_consumer');
+				$data['column_purchased'] = $this->language->get('column_purchased');
+				$data['text_head_merchant_registered'] = $this->language->get('text_head_merchant_registered');
+				$data['entry_model'] = $this->language->get('entry_model');
+				$data['entry_error_code'] = $this->language->get('entry_error_code');
+				$data['entry_color'] = $this->language->get('entry_color');
+				$data['entry_seat'] = $this->language->get('entry_seat');
+				$data['entry_shape'] = $this->language->get('entry_shape');
+				$data['entry_shop_city'] = $this->language->get('entry_shop_city');
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/model/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$query = $this->db->query("SELECT t.ticketrequest_id, t.ticketdepartment_id, t.subject, ts.bgcolor, ts.textcolor, tsd.name as status, t.date_added, t.date_modified FROM `" . DB_PREFIX . "ticketrequest` t LEFT JOIN " . DB_PREFIX . "ticketstatus ts ON (t.ticketstatus_id = ts.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketstatus_description tsd ON (ts.ticketstatus_id = tsd.ticketstatus_id) WHERE t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' AND t.ticketstatus_id > '0' AND tsd.language_id = '". (int)$this->config->get('config_language_id') ."' ORDER BY t.date_modified DESC LIMIT " . (int)$start . "," . (int)$limit);
+			]]></search>
+            <add><![CDATA[
+				if(!$this->ticketuser->getIsMerchant()){
+					$query = $this->db->query("SELECT tsh.name AS ticketshape_name,tse.name AS seat_name, tc.name As color_name, tm.name AS model_name,t.datePurchased,t.ticketrequest_id, t.ticketdepartment_id, t.subject, ts.bgcolor, ts.textcolor, tsd.name as status, t.date_added, t.date_modified,(SELECT a.company FROM `" . DB_PREFIX . "address` a LEFT JOIN " . DB_PREFIX . "customer cu ON (a.customer_id = cu.customer_id) WHERE cu.customer_id = t.ticketmerchant_id) AS company_name,t.boughtOnline as boughtonline,(SELECT z.name FROM `" . DB_PREFIX . "zip` z WHERE z.id = t.city_id) as shopCity,t.customerHasNoInternet,t.customerinfo FROM `" . DB_PREFIX . "ticketrequest` t LEFT JOIN " . DB_PREFIX . "ticketstatus ts ON (t.ticketstatus_id = ts.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketstatus_description tsd ON (ts.ticketstatus_id = tsd.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketmodel tm ON (t.ticketmodel_id = tm.id) LEFT JOIN " . DB_PREFIX . "intexcolor_description tc ON (t.color_id = tc.color_id AND tc.language_id = '". (int)$this->config->get('config_language_id') ."') LEFT JOIN " . DB_PREFIX . "intexseat_description tse ON (t.seat_id = tse.seat_id AND tse.language_id = '". (int)$this->config->get('config_language_id') ."') LEFT JOIN " . DB_PREFIX . "intexshape_description tsh ON (t.shape_id = tsh.shape_id AND tsh.language_id = '". (int)$this->config->get('config_language_id') ."') WHERE (t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' OR t.email = '" . $this->ticketuser->getEmail() . "') AND t.ticketstatus_id > '0' AND tsd.language_id = '". (int)$this->config->get('config_language_id') ."' ORDER BY t.date_modified DESC LIMIT " . (int)$start . "," . (int)$limit);
+				}
+				else{
+					$query = $this->db->query("SELECT tsh.name AS ticketshape_name,tse.name AS seat_name, tc.name As color_name, tm.name AS model_name,t.datePurchased,t.ticketrequest_id, t.ticketdepartment_id, t.subject, ts.bgcolor, ts.textcolor, tsd.name as status, t.date_added, t.date_modified,t.email AS company_name, t.boughtOnline as boughtonline,(SELECT z.name FROM `" . DB_PREFIX . "zip` z WHERE z.id = t.city_id) as shopCity,t.customerHasNoInternet,t.customerinfo FROM `" . DB_PREFIX . "ticketrequest` t LEFT JOIN " . DB_PREFIX . "ticketstatus ts ON (t.ticketstatus_id = ts.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketstatus_description tsd ON (ts.ticketstatus_id = tsd.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketmodel tm ON (t.ticketmodel_id = tm.id) LEFT JOIN " . DB_PREFIX . "intexcolor_description tc ON (t.color_id = tc.color_id AND tc.language_id = '". (int)$this->config->get('config_language_id') ."') LEFT JOIN " . DB_PREFIX . "intexseat_description tse ON (t.seat_id = tse.seat_id AND tse.language_id = '". (int)$this->config->get('config_language_id') ."') LEFT JOIN " . DB_PREFIX . "intexshape_description tsh ON (t.shape_id = tsh.shape_id AND tsh.language_id = '". (int)$this->config->get('config_language_id') ."') WHERE t.ticketmerchant_id = '" . (int)$this->ticketuser->getMerchantID() . "' AND t.ticketstatus_id > '0' AND tsd.language_id = '". (int)$this->config->get('config_language_id') ."' ORDER BY t.date_modified DESC LIMIT " . (int)$start . "," . (int)$limit);
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ticketrequest` t WHERE t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' AND t.ticketstatus_id > '0'");
+			]]></search>
+            <add><![CDATA[
+				if(!$this->ticketuser->getIsMerchant()){
+					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ticketrequest` t WHERE t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' AND t.ticketstatus_id > '0'");
+				}
+				else{
+					$query = $this->db->query("SELECT COUNT(*) AS total FROM `" . DB_PREFIX . "ticketrequest` t WHERE t.ticketmerchant_id = '" . (int)$this->ticketuser->getMerchantID() . "' AND t.ticketstatus_id > '0'");
+				}
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/view/theme/*/template/support/request_list.tpl">
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				<div class="submitticket col-sm-12 text-right">
+			]]></search>
+            <add><![CDATA[
+				<?php if($isMerchant) { ?>
+					<h4 class="pull-left"><?php echo $text_head_merchant_registered; ?> <span class="ticket_for_merchant"></span></h4>
+
+					<input type="search" class="pull-left" placeholder="search customers" style="
+					display: block;
+						height: 34px;
+						padding: 6px 12px;
+						font-size: 14px;
+						line-height: 1.42857143;
+						color: #555;
+						background-color: #fff;
+						background-image: none;
+						border: 1px solid #ccc;
+						border-radius: 4px;
+						margin-left: 10px;
+					">
+				<?php } ?>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="1"><![CDATA[
+				<?php echo $header; ?>
+			]]></search>
+            <add><![CDATA[
+				<style>
+					.support-list-wrap .table-body td span{
+						font-size: smaller;
+					}
+				</style>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="1"><![CDATA[
+				<a><div class="filter_click"><?php echo $column_department; ?></div></a>
+			]]></search>
+            <add><![CDATA[
+				<th>
+					<?php if($isMerchant) { ?>
+                  		<a><div class="filter_click"><?php echo $column_consumer; ?></div></a>
+            		<?php } else { ?>
+						<a><div class="filter_click"><?php echo $column_shop; ?></div></a>
+					<?php } ?>
+                </th>
+				<th>
+                  <a><div class="filter_click"><?php echo $column_purchased; ?></div></a>
+                </th>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				<td><?php echo $ticketrequest['department']; ?></td>
+			]]></search>
+            <add><![CDATA[
+				<td <?php if($isMerchant){ ?>class="merchant-customer-shop"<?php } ?>><?php echo $ticketrequest['company_name']; ?>
+					<?php if(!$ticketrequest['ticketboughtonline'] && !$isMerchant){ ?>
+						</br>
+						<span><b><?php echo $entry_shop_city; ?>:</b> <?php echo $ticketrequest['ticketshop_city']; ?></span>
+					<?php } ?>
+				</td>
+				<td><?php echo $ticketrequest['ticketDatePurchased']; ?></td>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				<td><?php echo $ticketrequest['department']; ?></td>
+			]]></search>
+            <add><![CDATA[
+				<td><?php echo $ticketrequest['department']; ?></br>
+					<span><b><?php echo $entry_model; ?>:</b> <?php echo $ticketrequest['ticketmodel_name']; ?></span></br> 
+					<span><b><?php echo $entry_error_code; ?></b></span></br>
+					<span><b><?php echo $entry_color; ?>: </b> <?php echo $ticketrequest['ticketcolor_name']; ?></span></br>
+					<span><b><?php echo $entry_seat; ?>: </b> <?php echo $ticketrequest['ticketseat_name']; ?> </span></br>
+					<span><b><?php echo $entry_shape; ?>: </b> <?php echo $ticketrequest['ticketshape_name']; ?></span>
+				</td>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				<ul class="breadcrumb sp-breadcrumb">
+			]]></search>
+            <add><![CDATA[
+				<script>
+					$(document).ready(function(){
+						if($('.js-is-merchant').length && $('.js-is-merchant').val() === "1"){
+							$('ul.breadcrumb').append('<li>'+$('.ticket-links .dropdown-toggle').find('span:eq(0)').text()+'</li>');
+							$('.ticket_for_merchant').text($('.logged-merchant-name').text());
+						}
+					});
+					
+				</script>
+				
+			]]></add>
+        </operation>
+	</file>
+	<!-- 05OverviewOfTicketForTheConsumer,06OverviewOfTicketForWholesaler end -->
+	<!-- 07DetailPage start -->
+	<file name="catalog/controller/support/ticket_view.php">
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$attachments = (array)$ticketrequest_info['attachments'];
+			]]></search>
+            <add><![CDATA[
+				$data['isMerchant'] = $this->ticketuser->getIsMerchant();
+				$data['ticket_model'] = $ticketrequest_info['ticketmodel'];
+				$data['ticket_error_code'] = '';
+				$data['ticket_color'] = $ticketrequest_info['ticketcolor'];
+				$data['ticket_seat'] = $ticketrequest_info['ticketseat'];
+				$data['ticket_shape'] = $ticketrequest_info['ticketshape'];
+				$data['ticket_bought_online'] = $ticketrequest_info['ticketboughtonline'];
+				if(!$this->ticketuser->getIsMerchant()){
+					$data['ticket_shop'] = $ticketrequest_info['ticketshop'];
+					$data['ticket_shop_city'] = $ticketrequest_info['ticketshopcity'];
+				}
+				else{
+					$data['ticket_customer'] = $ticketrequest_info['ticketcustomer'];
+				}
+
+				$data['entry_model'] = $this->language->get('entry_model');
+				$data['entry_error_code'] = $this->language->get('entry_error_code');
+				$data['entry_color'] = $this->language->get('entry_color');
+				$data['entry_seat'] = $this->language->get('entry_seat');
+				$data['entry_shape'] = $this->language->get('entry_shape');
+				$data['entry_shop'] = $this->language->get('entry_shop');
+				$data['entry_shop_city'] = $this->language->get('entry_shop_city');
+				$data['entry_customer'] = $this->language->get('entry_customer');
+				
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/model/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$query = $this->db->query("SELECT t.ticketrequest_id, t.ticketdepartment_id, t.email, t.subject, t.message, t.attachments, t.ticketstatus_id, t.ip, ts.bgcolor, ts.textcolor, tsd.name as status, t.date_added, t.date_modified FROM `" . DB_PREFIX . "ticketrequest` t LEFT JOIN " . DB_PREFIX . "ticketstatus ts ON (t.ticketstatus_id = ts.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketstatus_description tsd ON (ts.ticketstatus_id = tsd.ticketstatus_id) WHERE t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' AND t.ticketstatus_id > '0' AND t.ticketrequest_id = '". (int)$ticketrequest_id ."' AND tsd.language_id = '". (int)$this->config->get('config_language_id') ."'");
+			]]></search>
+            <add><![CDATA[
+				if(!$this->ticketuser->getIsMerchant()){
+					$query = $this->db->query("SELECT t.ticketrequest_id, t.ticketdepartment_id, t.email, t.subject, t.message, t.attachments, t.ticketstatus_id, t.ip, ts.bgcolor, ts.textcolor, tsd.name as status, t.date_added, t.date_modified,(SELECT tm.name FROM `" . DB_PREFIX . "ticketmodel` tm WHERE tm.id=t.ticketmodel_id) as ticketmodel,(SELECT icd.name FROM `" . DB_PREFIX . "intexcolor_description` icd WHERE icd.color_id=t.color_id AND icd.language_id = '". (int)$this->config->get('config_language_id') ."') as ticketcolor,(SELECT isd.name FROM `" . DB_PREFIX . "intexseat_description` isd WHERE isd.seat_id=t.seat_id AND isd.language_id = '". (int)$this->config->get('config_language_id') ."') as ticketseat,(SELECT ishd.name FROM `" . DB_PREFIX . "intexshape_description` ishd WHERE ishd.shape_id=t.shape_id AND ishd.language_id = '". (int)$this->config->get('config_language_id') ."') as ticketshape,(SELECT a.company FROM `" . DB_PREFIX . "address` a LEFT JOIN " . DB_PREFIX . "customer c ON(a.address_id = c.address_id) WHERE a.customer_id=t.ticketmerchant_id) as ticketshop,(SELECT z.name FROM `" . DB_PREFIX . "zip` z WHERE z.id=t.city_id) as ticketshopcity,t.customerHasNoInternet,t.customerinfo,t.boughtOnline,t.noWarranty FROM `" . DB_PREFIX . "ticketrequest` t LEFT JOIN " . DB_PREFIX . "ticketstatus ts ON (t.ticketstatus_id = ts.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketstatus_description tsd ON (ts.ticketstatus_id = tsd.ticketstatus_id) WHERE (t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' OR t.email = '" . $this->ticketuser->getEmail() . "') AND t.ticketstatus_id > '0' AND t.ticketrequest_id = '". (int)$ticketrequest_id ."' AND tsd.language_id = '". (int)$this->config->get('config_language_id') ."'");
+				}
+				else{
+					$query = $this->db->query("SELECT t.ticketrequest_id, t.ticketdepartment_id, t.email, t.subject, t.message, t.attachments, t.ticketstatus_id, t.ip, ts.bgcolor, ts.textcolor, tsd.name as status, t.date_added, t.date_modified,(SELECT tm.name FROM `" . DB_PREFIX . "ticketmodel` tm WHERE tm.id=t.ticketmodel_id) as ticketmodel,(SELECT icd.name FROM `" . DB_PREFIX . "intexcolor_description` icd WHERE icd.color_id=t.color_id AND icd.language_id = '". (int)$this->config->get('config_language_id') ."') as ticketcolor,(SELECT isd.name FROM `" . DB_PREFIX . "intexseat_description` isd WHERE isd.seat_id=t.seat_id AND isd.language_id = '". (int)$this->config->get('config_language_id') ."') as ticketseat,(SELECT ishd.name FROM `" . DB_PREFIX . "intexshape_description` ishd WHERE ishd.shape_id=t.shape_id AND ishd.language_id = '". (int)$this->config->get('config_language_id') ."') as ticketshape,(SELECT a.company FROM `" . DB_PREFIX . "address` a LEFT JOIN " . DB_PREFIX . "customer c ON(a.address_id = c.address_id) WHERE a.customer_id=t.ticketmerchant_id) as ticketshop,(SELECT z.name FROM `" . DB_PREFIX . "zip` z WHERE z.id=t.city_id) as ticketshopcity,t.customerHasNoInternet,t.customerinfo,t.boughtOnline,t.noWarranty FROM `" . DB_PREFIX . "ticketrequest` t LEFT JOIN " . DB_PREFIX . "ticketstatus ts ON (t.ticketstatus_id = ts.ticketstatus_id) LEFT JOIN " . DB_PREFIX . "ticketstatus_description tsd ON (ts.ticketstatus_id = tsd.ticketstatus_id) WHERE t.ticketstatus_id > '0' AND t.ticketrequest_id = '". (int)$ticketrequest_id ."' AND tsd.language_id = '". (int)$this->config->get('config_language_id') ."'");
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$query = $this->db->query("SELECT tc.ticketrequest_chat_id, tc.ticketrequest_id, tc.ticketuser_id, tc.message_from_user_id, tc.client_type, tc.message, tc.attachments, tc.date_added FROM `" . DB_PREFIX . "ticketrequest_chat` tc LEFT JOIN `" . DB_PREFIX . "ticketrequest` t ON(tc.ticketrequest_id = t.ticketrequest_id) WHERE t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' AND tc.ticketrequest_id = '" . (int)$ticketrequest_id . "' ORDER BY tc.ticketrequest_chat_id ASC LIMIT " . (int)$start . "," . (int)$limit);
+			]]></search>
+            <add><![CDATA[
+				if(!$this->ticketuser->getIsMerchant()){
+					$query = $this->db->query("SELECT tc.ticketrequest_chat_id, tc.ticketrequest_id, tc.ticketuser_id, tc.message_from_user_id, tc.client_type, tc.message, tc.attachments, tc.date_added FROM `" . DB_PREFIX . "ticketrequest_chat` tc LEFT JOIN `" . DB_PREFIX . "ticketrequest` t ON(tc.ticketrequest_id = t.ticketrequest_id) WHERE t.ticketuser_id = '" . (int)$this->ticketuser->getId() . "' AND tc.ticketrequest_id = '" . (int)$ticketrequest_id . "' ORDER BY tc.ticketrequest_chat_id ASC LIMIT " . (int)$start . "," . (int)$limit);
+				}
+				else{
+					$query = $this->db->query("SELECT tc.ticketrequest_chat_id, tc.ticketrequest_id, tc.ticketuser_id, tc.message_from_user_id, tc.client_type, tc.message, tc.attachments, tc.date_added FROM `" . DB_PREFIX . "ticketrequest_chat` tc LEFT JOIN `" . DB_PREFIX . "ticketrequest` t ON(tc.ticketrequest_id = t.ticketrequest_id) WHERE tc.ticketrequest_id = '" . (int)$ticketrequest_id . "' ORDER BY tc.ticketrequest_chat_id ASC LIMIT " . (int)$start . "," . (int)$limit);
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				'date_modified'					=> $query->row['date_modified'],
+			]]></search>
+            <add><![CDATA[
+				'ticketmodel'					=> $query->row['ticketmodel'],
+				'ticketcolor'					=> $query->row['ticketcolor'],
+				'ticketseat'					=> $query->row['ticketseat'],
+				'ticketshape'					=> $query->row['ticketshape'],
+				'ticketshop'					=> $query->row['ticketshop'],
+				'ticketshopcity'				=> $query->row['ticketshopcity'],
+				'ticketboughtonline'			=> $query->row['boughtOnline'],
+				'ticketcustomer'				=> !$query->row['customerHasNoInternet'] ? $query->row['email'] : $query->row['customerinfo'],
+			]]></add>
+        </operation>
+	</file>
+	<file name="catalog/view/theme/*/template/support/ticket_view.tpl">
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				<li><?php echo $department_name; ?></li>
+			]]></search>
+            <add><![CDATA[
+				<?php if($ticket_model){ ?>
+					<li><strong><?php echo $entry_model; ?>: </strong><?php echo $ticket_model; ?></li>
+				<?php } if($ticket_error_code){  ?>
+					<li><strong><?php echo $entry_error_code; ?>: </strong><?php echo $ticket_error_code; ?></li>
+				<?php } if($ticket_color){ ?>
+					<li><strong><?php echo $entry_color; ?>: </strong><?php echo $ticket_color; ?></li>
+				<?php } if($ticket_seat){ ?>
+					<li><strong><?php echo $entry_seat; ?>: </strong><?php echo $ticket_seat; ?></li>
+				<?php } if($ticket_shape){ ?>
+				<li><strong><?php echo $entry_shape; ?>: </strong><?php echo $ticket_shape; ?></li>
+				<?php } ?>
+				<?php if(!$isMerchant){ ?>
+					<?php if($ticket_bought_online){ ?>
+						<li><strong><?php echo $entry_shop; ?>: </strong><?php echo $entry_online; ?></li>
+					<?php }else{?>
+						<li><strong><?php echo $entry_shop; ?>: </strong><?php echo $ticket_shop; ?></li>
+						<li><strong><?php echo $entry_shop_city; ?>: </strong><?php echo $ticket_shop_city; ?></li>
+					<?php }?>
+				<?php }else{ ?>
+					<li><strong><?php echo $entry_customer; ?>: </strong><?php echo $ticket_customer; ?></li>
+				<?php } ?>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace" offset="1"><![CDATA[
+				<button type="button" class="button btn-blue button-reply-submit-open"><?php echo $button_submit; ?></button>
+			]]></search>
+            <add><![CDATA[
+				<?php if(!$isMerchant) { ?>
+					<button type="button" class="button btn-blue button-reply-submit-open"><?php echo $button_submit; ?></button>
+          			<button type="button" class="button btn-blue button-reply-submit-close"><?php echo $button_submit_close; ?></button>
+				<?php } ?>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				<?php echo $footer; ?>
+			]]></search>
+            <add><![CDATA[
+				<script>
+					$(document).ready(function(){
+						if($('.js-is-merchant').length && $('.js-is-merchant').val() === "1"){
+							$('textarea[name="message"]').attr('readonly','readonly');
+							$('textarea[name="message"]').css('cursor','not-allowed');
+							$('#button-upload').attr('disabled','disabled');
+						}
+					});
+				</script>	  
+			]]></add>
+        </operation>
+	</file>
+	<!-- 07DetailPage end -->
+	<!-- 08AdminPanel start-->
+	<file name="admin/controller/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				$data['ip'] = $ticketrequest_info['ip'];
+			]]></search>
+            <add><![CDATA[
+				$data['datePurchased'] = date('d M Y', strtotime($ticketrequest_info['datePurchased']));
+				$data['ticketrequestmodel'] = $this->model_module_ticket_ticketrequest->getTicketrequestModel($ticketrequest_info['ticketmodel_id'])['name'];
+				$ticketRequestShop = $this->model_module_ticket_ticketrequest->getTicketrequestShopName($ticketrequest_info['ticketmerchant_id']);
+				if(!empty($ticketRequestShop)){
+					$data['ticketrequestshop'] = $ticketRequestShop['company'];
+					$data['ticketrequestshopcity'] = $this->model_module_ticket_ticketrequest->getTicketrequestShopCity($ticketrequest_info['city_id'])['name'];
+				}
+				else{
+					$data['ticketrequestshop'] = '';
+					$data['ticketrequestshopcity'] = 0;
+				}
+				
+				$data['ticketrequestcolor'] = $this->model_module_ticket_ticketrequest->getTicketrequestColor($ticketrequest_info['color_id'])['name'];
+				$data['ticketrequestseat'] = $this->model_module_ticket_ticketrequest->getTicketrequestSeat($ticketrequest_info['seat_id'])['name'];
+				$data['ticketrequestshape'] = $this->model_module_ticket_ticketrequest->getTicketrequestShape($ticketrequest_info['shape_id'])['name'];
+				$data['ticketrequestpurchasedonline'] = $ticketrequest_info['boughtOnline'];
+				$data['ticketrequestnowarranty'] = $ticketrequest_info['noWarranty'];
+			]]></add>
+        </operation>
+	</file>
+	<file name="admin/model/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				public function getTicketrequest($ticketrequest_id) {
+			]]></search>
+            <add><![CDATA[
+				public function getTicketrequestModel($ticketrequestmodel_id) {
+					$query = $this->db->query("SELECT name FROM " . DB_PREFIX . "ticketmodel WHERE id = '" . (int)$ticketrequestmodel_id . "'");
+					
+					return $query->row;
+				}
+				public function getTicketrequestShopName($ticketrequestmerchant_id) {
+					$query = $this->db->query("SELECT a.company FROM `" . DB_PREFIX . "address` a LEFT JOIN " . DB_PREFIX . "customer cu ON (a.address_id = cu.address_id) WHERE cu.customer_id = '" . (int)$ticketrequestmerchant_id . "'");
+					
+					return $query->row;
+				}
+				public function getTicketrequestShopCity($ticketrequestcity_id) {
+					$query = $this->db->query("SELECT * FROM `" . DB_PREFIX . "zip` z WHERE z.id = '" . (int)$ticketrequestcity_id . "'");
+					
+					return $query->row;
+				}
+				public function getTicketrequestColor($ticketrequestcolor_id) {
+					$query = $this->db->query("SELECT name FROM " . DB_PREFIX . "intexcolor_description WHERE color_id = '" . (int)$ticketrequestcolor_id . "'");
+
+					return $query->row;
+				}
+				public function getTicketrequestSeat($ticketrequestseat_id) {
+					$query = $this->db->query("SELECT name FROM " . DB_PREFIX . "intexseat_description WHERE seat_id = '" . (int)$ticketrequestseat_id . "'");
+
+					return $query->row;
+				}
+				public function getTicketrequestShape($ticketrequestshape_id) {
+					$query = $this->db->query("SELECT name FROM " . DB_PREFIX . "intexshape_description WHERE shape_id = '" . (int)$ticketrequestshape_id . "'");
+
+					return $query->row;
+				}
+			]]></add>
+        </operation>
+	</file>
+	<file name="admin/view/template/module_ticket/ticketrequest_info.tpl">
+		<operation error="skip">
+            <search position="replace" offset="1"><![CDATA[
+				<td><?php echo $text_ip; ?>:</td>
+			]]></search>
+            <add><![CDATA[
+			
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="2"><![CDATA[
+				<td><?php echo $text_department; ?>:</td>
+			]]></search>
+            <add><![CDATA[
+				<tr>
+					<td>Date Of Purchase:</td>
+					<td class="text-right"><?php echo $datePurchased; ?></td>
+				</tr>
+				<tr>
+					<td>Model:</td>
+					<td class="text-right"><?php echo $ticketrequestmodel; ?></td>
+				</tr>
+				<tr>
+					<td>ErrorCode:</td>
+					<td class="text-right"><?php echo $ticketdepartment; ?></td>
+				</tr>
+				<?php if(!$ticketrequestpurchasedonline){ ?>
+				<tr>
+					<td>Shopname:</td>
+					<td class="text-right"><?php echo $ticketrequestshop; ?></td>
+				</tr>
+				<tr>
+					<td>Shop city:</td>
+					<td class="text-right"><?php echo $ticketrequestshopcity; ?></td>
+				</tr>
+				<?php } ?>
+				<?php if($ticketrequestcolor){ ?>
+				<tr>
+					<td>Color:</td>
+					<td class="text-right"><?php echo $ticketrequestcolor; ?></td>
+				</tr>
+				<?php } ?>
+				<?php if($ticketrequestseat){ ?>
+				<tr>
+					<td>Seats:</td>
+					<td class="text-right"><?php echo $ticketrequestseat; ?></td>
+				</tr>
+				<?php } ?>
+				<?php if($ticketrequestshape){ ?>
+				<tr>
+					<td>Shape:</td>
+					<td class="text-right"><?php echo $ticketrequestshape; ?></td>
+				</tr>
+				<?php } ?>
+				<?php if($ticketrequestpurchasedonline){ ?>
+				<tr>
+					<td>Online:</td>
+					<td class="text-right"><input type="checkbox" value="1" readonly checked style="pointer-events: none;"></td>
+				</tr>
+				<?php } ?>
+				<?php if($ticketrequestnowarranty){ ?>
+				<tr>
+					<td>No valid warranty:</td>
+					<td class="text-right"><input type="checkbox" value="1" readonly checked style="pointer-events: none;"></td>
+				</tr>
+				<?php } ?>
+			]]></add>
+        </operation>
+	</file>
+	<!-- 09OverviewAdmin -->
+	<file name="admin/controller/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['button_filter'] = $this->language->get('button_filter');
+			]]></search>
+            <add><![CDATA[
+				$data['column_shop'] = $this->language->get('column_shop');
+				$data['text_not_under_warranty'] = $this->language->get('text_not_under_warranty');
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['ticketrequests'][] = array(
+			]]></search>
+            <add><![CDATA[
+				'ticketshopname'  => $result['ticketshopname'] ? $result['ticketshopname'] : $this->language->get('text_shop_online'),
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['sort_date_modified'] = $this->url->link('module_ticket/ticketrequest', $session_token_variable .'=' . $session_token . '&sort=t.date_modified' . $url, true);
+			]]></search>
+            <add><![CDATA[
+				$data['sort_shop_name'] = $this->url->link('module_ticket/ticketrequest', $session_token_variable .'=' . $session_token . '&sort=ticketshopname' . $url, true);
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="3"><![CDATA[
+				$filter_date_modified = $this->request->get['filter_date_modified'];
+			]]></search>
+            <add><![CDATA[
+				if (isset($this->request->get['filter_ticketshopname'])) {
+					$filter_ticketshopname = $this->request->get['filter_ticketshopname'];
+				} else {
+					$filter_ticketshopname = null;
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="3"><![CDATA[
+				$url .= '&filter_date_modified=' . $this->request->get['filter_date_modified'];
+			]]></search>
+            <add><![CDATA[
+				if (isset($this->request->get['filter_ticketshopname'])) {
+					$url .= '&filter_ticketshopname=' . $this->request->get['filter_ticketshopname'];
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['ticketdepartments'] = $this->model_module_ticket_ticketdepartment->getTicketdepartments();
+			]]></search>
+            <add><![CDATA[
+				$data['ticketshopnames'] = $this->model_module_ticket_ticketrequest->getTicketshopName();
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				'filter_date_modified' 		=> $filter_date_modified,
+			]]></search>
+            <add><![CDATA[
+				'filter_ticketshopname' 		=> $filter_ticketshopname,
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$data['filter_date_modified']	= $filter_date_modified;
+			]]></search>
+            <add><![CDATA[
+				$data['filter_ticketshopname']	= $filter_ticketshopname;
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				'ticketrequest_id'  => $result['ticketrequest_id'],
+			]]></search>
+            <add><![CDATA[
+				'ticketnovalidwarranty' => $result['noWarranty'],
+			]]></add>
+        </operation>
+	</file>
+	<file name="admin/model/module_ticket/ticketrequest.php">
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				$sql = "SELECT *, (SELECT ts.name FROM " . DB_PREFIX . "ticketstatus_description ts WHERE ts.ticketstatus_id = t.ticketstatus_id AND ts.language_id = '" . (int)$this->config->get('config_language_id') . "') AS ticketstatus, (SELECT td.title FROM " . DB_PREFIX . "ticketdepartment_description td WHERE td.ticketdepartment_id = t.ticketdepartment_id AND td.language_id = '" . (int)$this->config->get('config_language_id') . "') AS ticketdepartment, (SELECT tu.name FROM " . DB_PREFIX . "ticketuser tu WHERE tu.ticketuser_id = t.ticketuser_id) AS ticketuser_name FROM " . DB_PREFIX . "ticketrequest t WHERE t.ticketrequest_id > 0";
+			]]></search>
+            <add><![CDATA[
+				$sql = "SELECT *, (SELECT a.company FROM " . DB_PREFIX . "address a WHERE a.customer_id = t.ticketmerchant_id) AS ticketshopname, (SELECT ts.name FROM " . DB_PREFIX . "ticketstatus_description ts WHERE ts.ticketstatus_id = t.ticketstatus_id AND ts.language_id = '" . (int)$this->config->get('config_language_id') . "') AS ticketstatus, (SELECT td.title FROM " . DB_PREFIX . "ticketdepartment_description td WHERE td.ticketdepartment_id = t.ticketdepartment_id AND td.language_id = '" . (int)$this->config->get('config_language_id') . "') AS ticketdepartment, (SELECT tu.name FROM " . DB_PREFIX . "ticketuser tu WHERE tu.ticketuser_id = t.ticketuser_id) AS ticketuser_name FROM " . DB_PREFIX . "ticketrequest t WHERE t.ticketrequest_id > 0";
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				$sort_data = array(
+			]]></search>
+            <add><![CDATA[
+				'ticketshopname',
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before"><![CDATA[
+				public function getTicketrequest($ticketrequest_id) {
+			]]></search>
+            <add><![CDATA[
+				public function getTicketshopName($data = array()) {
+					$sql = "SELECT DISTINCT a.* FROM " . DB_PREFIX . "ticketrequest tr LEFT JOIN " . DB_PREFIX . "address a ON (a.customer_id = tr.ticketmerchant_id) WHERE a.company IS NOT NULL";
+
+					$query = $this->db->query($sql);
+
+					return $query->rows;	
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="before" index="1"><![CDATA[
+				if ($implode) {
+			]]></search>
+            <add><![CDATA[
+				if (!empty($data['filter_ticketshopname'])) {
+					$implode[] = "t.ticketmerchant_id = '" . (int)$data['filter_ticketshopname'] . "'";
+				}
+			]]></add>
+        </operation>
+	</file>
+	<file name="admin/view/template/module_ticket/ticketrequest_list.tpl">
+		<operation error="skip">
+            <search position="after" offset="7"><![CDATA[
+				<label class="control-label" for="input-date-modified"><?php echo $entry_date_modified; ?></label>
+			]]></search>
+            <add><![CDATA[
+				<div class="form-group">
+					<label class="control-label" for="input-shopname">Shop Name</label>
+					<select name="filter_ticketshopname" id="input-shopname" class="form-control">
+						<option value="0"></option>
+						<?php foreach ($ticketshopnames as $ticketshopname) { ?>
+						<?php echo $filter_ticketshopname ?>
+						<?php if ($ticketshopname['customer_id'] == $filter_ticketshopname) { ?>
+						<option value="<?php echo $ticketshopname['customer_id']; ?>" selected="selected"><?php echo $ticketshopname['company']; ?></option>
+						<?php } else { ?>
+						<option value="<?php echo $ticketshopname['customer_id']; ?>"><?php echo $ticketshopname['company']; ?></option>
+						<?php } ?>
+						<?php } ?>
+					</select>
+              	</div>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="1"><![CDATA[
+				<a href="<?php echo $sort_date_added; ?>"><?php echo $column_date_added; ?></a>
+			]]></search>
+            <add><![CDATA[
+				<td class="text-left">
+					<?php if ($sort == 'ticketshopname') { ?>
+                    	<a href="<?php echo $sort_shop_name; ?>" class="<?php echo strtolower($order); ?>"><?php echo $column_shop; ?></a>
+                    <?php } else { ?>
+                    	<a href="<?php echo $sort_shop_name; ?>"><?php echo $column_shop; ?></a>
+                    <?php } ?>
+				</td>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				<td class="text-left"><?php echo $ticketrequest['date_added']; ?></td>
+			]]></search>
+            <add><![CDATA[
+				<td class="text-left"><?php echo $ticketrequest['ticketshopname']; ?></td>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after" offset="1"><![CDATA[
+				url += '&filter_ticketstatus=' + encodeURIComponent(filter_ticketstatus);
+			]]></search>
+            <add><![CDATA[
+				var filter_ticketshopname = $('select[name=\'filter_ticketshopname\']').val();	
+				if (filter_ticketshopname != '*') {
+					url += '&filter_ticketshopname=' + encodeURIComponent(filter_ticketshopname);
+				}
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace"><![CDATA[
+				<td class="text-center" colspan="9"><?php echo $text_no_results; ?></td>
+			]]></search>
+            <add><![CDATA[
+				<td class="text-center" colspan="10"><?php echo $text_no_results; ?></td>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="after"><![CDATA[
+				<form action="<?php echo $delete; ?>" method="post" enctype="multipart/form-data" id="form-ticketrequest">
+			]]></search>
+            <add><![CDATA[
+				<style>
+					#form-ticketrequest tr.ticket-warranty-invalid{
+						background: #ffebcc;
+    					color: #000;
+					}
+				</style>
+			]]></add>
+        </operation>
+		<operation error="skip">
+            <search position="replace" offset="1"><![CDATA[
+				<?php foreach ($ticketrequests as $ticketrequest) { ?>
+			]]></search>
+            <add><![CDATA[
+				<?php foreach ($ticketrequests as $ticketrequest) { ?>
+					<?php if($ticketrequest['ticketnovalidwarranty']){ ?>
+						<tr title="<?php echo $text_not_under_warranty; ?>" class="ticket-warranty-invalid">
+					<?php } else{ ?>
+						<tr class="ticket-warranty-valid">
+					<?php } ?>
+			]]></add>
+        </operation>
+	</file>
+</modification>
